@@ -64,7 +64,7 @@ function make(_children) {
                     ];
             }),
           /* retainedProps */component[/* retainedProps */11],
-          /* reducer */(function (action, state) {
+          /* reducer */(function (action, _state) {
               if (action) {
                 return /* Update */Block.__(0, [action[0]]);
               } else {

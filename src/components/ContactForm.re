@@ -21,7 +21,7 @@ let make = _children => {
     description: "",
   },
 
-  reducer: (action, state) =>
+  reducer: (action, _state) =>
     switch (action) {
       | UpdateForm(newState) => ReasonReact.Update(newState)
       | Submit => ReasonReact.NoUpdate
