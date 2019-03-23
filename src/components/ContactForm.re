@@ -6,11 +6,17 @@ type state = {
 
 type action =
   | UpdateForm(state)
+  | Validate
   | Submit;
 
 let component = ReasonReact.reducerComponent("ContactForm");
 
 let getChangeValue = event => ReactEvent.Form.target(event)##value;
+
+let handleSubmit = (send, event) => {
+  send(Validate);
+  ReactEvent.Form.preventDefault(event);
+}
 
 let make = _children => {
   ...component,
@@ -21,15 +27,25 @@ let make = _children => {
     description: "",
   },
 
-  reducer: (action, _state) =>
+  reducer: (action, state) =>
     switch (action) {
       | UpdateForm(newState) => ReasonReact.Update(newState)
+      | Validate => {
+          open Validators;
+          let name = validate(NotEmpty, state.name);
+          let email = validate(NotEmpty, state.email);
+          let description = validate(NotEmpty, state.description);
+          Js.log(name ? "True" : "False");
+          Js.log(email ? "True" : "False");
+          Js.log(description ? "True" : "False");
+          ReasonReact.NoUpdate;
+        }
       | Submit => ReasonReact.NoUpdate
     },
 
   render: ({state, send}) => {
     <div className="w-screen h-screen flex content-center justify-center items-center">
-      <form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+      <form noValidate={true} onSubmit={handleSubmit(send)} className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
         <Input
           label="Full Name"
           type_="text"

@@ -7,11 +7,18 @@ var React = require("react");
 var ReasonReact = require("reason-react/src/ReasonReact.js");
 var Input$ReactTemplate = require("./Input.bs.js");
 var TextArea$ReactTemplate = require("./TextArea.bs.js");
+var Validators$ReactTemplate = require("../utilities/Validators.bs.js");
 
 var component = ReasonReact.reducerComponent("ContactForm");
 
 function getChangeValue($$event) {
   return $$event.target.value;
+}
+
+function handleSubmit(send, $$event) {
+  Curry._1(send, /* Validate */0);
+  $$event.preventDefault();
+  return /* () */0;
 }
 
 function make(_children) {
@@ -31,7 +38,11 @@ function make(_children) {
               return React.createElement("div", {
                           className: "w-screen h-screen flex content-center justify-center items-center"
                         }, React.createElement("form", {
-                              className: "bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"
+                              className: "bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4",
+                              noValidate: true,
+                              onSubmit: (function (param) {
+                                  return handleSubmit(send, param);
+                                })
                             }, ReasonReact.element(undefined, undefined, Input$ReactTemplate.make("Full Name", "text", state[/* name */0], (function ($$event) {
                                         return Curry._1(send, /* UpdateForm */[/* record */[
                                                       /* name */$$event.target.value,
@@ -64,11 +75,21 @@ function make(_children) {
                     ];
             }),
           /* retainedProps */component[/* retainedProps */11],
-          /* reducer */(function (action, _state) {
-              if (action) {
-                return /* Update */Block.__(0, [action[0]]);
+          /* reducer */(function (action, state) {
+              if (typeof action === "number") {
+                if (action !== 0) {
+                  return /* NoUpdate */0;
+                } else {
+                  var name = Validators$ReactTemplate.validate(/* NotEmpty */0, state[/* name */0]);
+                  var email = Validators$ReactTemplate.validate(/* NotEmpty */0, state[/* email */1]);
+                  var description = Validators$ReactTemplate.validate(/* NotEmpty */0, state[/* description */2]);
+                  console.log(name ? "True" : "False");
+                  console.log(email ? "True" : "False");
+                  console.log(description ? "True" : "False");
+                  return /* NoUpdate */0;
+                }
               } else {
-                return /* NoUpdate */0;
+                return /* Update */Block.__(0, [action[0]]);
               }
             }),
           /* jsElementWrapped */component[/* jsElementWrapped */13]
@@ -77,5 +98,6 @@ function make(_children) {
 
 exports.component = component;
 exports.getChangeValue = getChangeValue;
+exports.handleSubmit = handleSubmit;
 exports.make = make;
 /* component Not a pure module */
