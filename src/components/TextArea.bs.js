@@ -6,7 +6,29 @@ var ReasonReact = require("reason-react/src/ReasonReact.js");
 
 var component = ReasonReact.statelessComponent("TextArea");
 
-function make(label, value, onChange, _children) {
+var labelClassList = /* array */[
+  "block",
+  "text-grey-darker",
+  "text-sm",
+  "font-bold",
+  "mb-2"
+];
+
+var inputClassList = /* array */[
+  "shadow",
+  "appearance-none",
+  "border",
+  "rounded",
+  "w-full",
+  "py-2",
+  "px-3",
+  "text-grey-darker",
+  "leading-tight",
+  "focus:outline-none",
+  "focus:shadow-outlin"
+];
+
+function make(label, value, onChange, invalid, _children) {
   return /* record */[
           /* debugName */component[/* debugName */0],
           /* reactClassInternal */component[/* reactClassInternal */1],
@@ -19,11 +41,11 @@ function make(label, value, onChange, _children) {
           /* shouldUpdate */component[/* shouldUpdate */8],
           /* render */(function (_self) {
               return React.createElement("div", {
-                          className: "mb-4"
+                          className: invalid ? "rr-input rr-input__invalid" : "rr-input"
                         }, React.createElement("label", {
-                              className: "block text-grey-darker text-sm font-bold mb-2"
+                              className: "rr-input__label"
                             }, label), React.createElement("textarea", {
-                              className: "shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker leading-tight focus:outline-none focus:shadow-outlin",
+                              className: "rr-input__field",
                               value: value,
                               onChange: onChange
                             }));
@@ -36,5 +58,7 @@ function make(label, value, onChange, _children) {
 }
 
 exports.component = component;
+exports.labelClassList = labelClassList;
+exports.inputClassList = inputClassList;
 exports.make = make;
 /* component Not a pure module */

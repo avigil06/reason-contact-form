@@ -31,13 +31,12 @@ let make = _children => {
     switch (action) {
       | UpdateForm(newState) => ReasonReact.Update(newState)
       | Validate => {
-          open Validators;
-          let name = validate(NotEmpty, state.name);
-          let email = validate(NotEmpty, state.email);
-          let description = validate(NotEmpty, state.description);
-          Js.log(name ? "True" : "False");
-          Js.log(email ? "True" : "False");
-          Js.log(description ? "True" : "False");
+          let model: array(Validators.field) = [|
+            { value: state.name, name: "name" },
+            { value: state.email, name: "email" },
+            { value: state.description, name: "description" },
+          |];
+          let errors = Validators.validateForm(model);
           ReasonReact.NoUpdate;
         }
       | Submit => ReasonReact.NoUpdate
@@ -50,18 +49,21 @@ let make = _children => {
           label="Full Name"
           type_="text"
           value={state.name}
+          invalid={true}
           onChange={event => send(UpdateForm({...state, name: getChangeValue(event)}))} />
         <Input
           label="Reason"
           type_="text"
           value={state.email}
+          invalid={false}
           onChange={event => send(UpdateForm({...state, email: getChangeValue(event)}))} />
         <TextArea
           label="Description"
           value={state.description}
+          invalid={false}
           onChange={event => send(UpdateForm({...state, description: getChangeValue(event)}))} />
         <div className="flex items-center justify-between">
-          <button className="bg-blue hover:bg-blue-dark text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">(ReasonReact.string("Send"))</button>
+          <button className="btn">(ReasonReact.string("Send"))</button>
         </div>
       </form>
     </div>

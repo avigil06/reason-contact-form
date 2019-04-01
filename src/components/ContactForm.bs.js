@@ -49,22 +49,22 @@ function make(_children) {
                                                       /* email */state[/* email */1],
                                                       /* description */state[/* description */2]
                                                     ]]);
-                                      }), /* array */[])), ReasonReact.element(undefined, undefined, Input$ReactTemplate.make("Reason", "text", state[/* email */1], (function ($$event) {
+                                      }), true, /* array */[])), ReasonReact.element(undefined, undefined, Input$ReactTemplate.make("Reason", "text", state[/* email */1], (function ($$event) {
                                         return Curry._1(send, /* UpdateForm */[/* record */[
                                                       /* name */state[/* name */0],
                                                       /* email */$$event.target.value,
                                                       /* description */state[/* description */2]
                                                     ]]);
-                                      }), /* array */[])), ReasonReact.element(undefined, undefined, TextArea$ReactTemplate.make("Description", state[/* description */2], (function ($$event) {
+                                      }), false, /* array */[])), ReasonReact.element(undefined, undefined, TextArea$ReactTemplate.make("Description", state[/* description */2], (function ($$event) {
                                         return Curry._1(send, /* UpdateForm */[/* record */[
                                                       /* name */state[/* name */0],
                                                       /* email */state[/* email */1],
                                                       /* description */$$event.target.value
                                                     ]]);
-                                      }), /* array */[])), React.createElement("div", {
+                                      }), false, /* array */[])), React.createElement("div", {
                                   className: "flex items-center justify-between"
                                 }, React.createElement("button", {
-                                      className: "bg-blue hover:bg-blue-dark text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                                      className: "btn"
                                     }, "Send"))));
             }),
           /* initialState */(function (param) {
@@ -80,12 +80,21 @@ function make(_children) {
                 if (action !== 0) {
                   return /* NoUpdate */0;
                 } else {
-                  var name = Validators$ReactTemplate.validate(/* NotEmpty */0, state[/* name */0]);
-                  var email = Validators$ReactTemplate.validate(/* NotEmpty */0, state[/* email */1]);
-                  var description = Validators$ReactTemplate.validate(/* NotEmpty */0, state[/* description */2]);
-                  console.log(name ? "True" : "False");
-                  console.log(email ? "True" : "False");
-                  console.log(description ? "True" : "False");
+                  var model = /* array */[
+                    /* record */[
+                      /* name */"name",
+                      /* value */state[/* name */0]
+                    ],
+                    /* record */[
+                      /* name */"email",
+                      /* value */state[/* email */1]
+                    ],
+                    /* record */[
+                      /* name */"description",
+                      /* value */state[/* description */2]
+                    ]
+                  ];
+                  Validators$ReactTemplate.validateForm(model);
                   return /* NoUpdate */0;
                 }
               } else {

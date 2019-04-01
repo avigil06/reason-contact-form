@@ -1,4 +1,16 @@
-type rules('a) =
+type option('a) = None | Some('a);
+
+type field = {
+  name: string,
+  value: string,
+}
+
+type fieldResult = {
+  name: string,
+  error: option(string)
+}
+
+type rule('a) =
   | NotEmpty;
 
 let validate = (rule, value) =>
@@ -8,5 +20,17 @@ let validate = (rule, value) =>
 
 let getError = (rule, field) =>
   switch (rule) {
-  | NotEmpty => field ++ " is required"
-  };
+    | NotEmpty => Some(field ++ " is required")
+    };
+
+let validateForm = model =>
+  {
+    Array.map(record => {
+        let isValid = validate(NotEmpty, record.value);
+        let error = getError(NotEmpty, record.name);
+        {
+          name: record.name,
+          error: isValid ? None : error
+        }
+      }, model);
+  }

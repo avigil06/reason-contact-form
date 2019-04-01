@@ -6,7 +6,7 @@ var ReasonReact = require("reason-react/src/ReasonReact.js");
 
 var component = ReasonReact.statelessComponent("Input");
 
-function make(label, type_, value, onChange, _children) {
+function make(label, type_, value, onChange, invalid, _children) {
   return /* record */[
           /* debugName */component[/* debugName */0],
           /* reactClassInternal */component[/* reactClassInternal */1],
@@ -19,11 +19,11 @@ function make(label, type_, value, onChange, _children) {
           /* shouldUpdate */component[/* shouldUpdate */8],
           /* render */(function (_self) {
               return React.createElement("div", {
-                          className: "mb-4"
+                          className: invalid ? "rr-input rr-input__invalid" : "rr-input"
                         }, React.createElement("label", {
-                              className: "block text-grey-darker text-sm font-bold mb-2"
+                              className: "rr-input__label"
                             }, label), React.createElement("input", {
-                              className: "shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker leading-tight focus:outline-none focus:shadow-outlin",
+                              className: "rr-input__field",
                               type: type_,
                               value: value,
                               onChange: onChange
